@@ -1,5 +1,8 @@
 # Frchannel
 原项目地址：https://github.com/7wkajk/Frchannel
+
+## 利用链
+支持HSqlJNDI以及HSqlDeserialize二次反序列化
 ## 免责声明
 该工具仅用于安全自查检测
 
