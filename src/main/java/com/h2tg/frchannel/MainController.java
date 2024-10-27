@@ -14,6 +14,7 @@ import javafx.stage.Window;
 import javafx.util.Pair;
 import org.apache.http.HttpHost;
 import java.net.URL;
+import java.util.Base64;
 import java.util.ResourceBundle;
 
 import static com.h2tg.frchannel.Utils.*;
@@ -94,10 +95,11 @@ public class MainController implements Initializable
                     this.output.setText("Please Input Command !!!");
                 } else {
                     try {
-                        byte[] bytes = generate(gadget, payload);
+                        byte[] bytes = generate(gadget, payload, arg);
                         if (!payload.equals("CmdExec")) {
                             arg = null;
                         }
+                        System.out.println(Base64.getEncoder().encodeToString(bytes));
                         String res = send(url, bytes, arg, this.PROXY);
                         this.output.setText(res);
                     } catch (Exception e) {
